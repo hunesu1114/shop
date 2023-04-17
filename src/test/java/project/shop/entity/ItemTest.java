@@ -26,12 +26,10 @@ public class ItemTest {
                 .name("이름1")
                 .price(10000)
                 .feature("상품설명1")
-                .member(member)
                 .build();
 
         Assertions.assertThat(item.getName()).isEqualTo("이름1");
         Assertions.assertThat(item.getPrice()).isEqualTo(10000);
         Assertions.assertThat(item.getFeature()).isEqualTo("상품설명1");
-        Assertions.assertThat(item.getMember()).isEqualTo(member);
     }
 }

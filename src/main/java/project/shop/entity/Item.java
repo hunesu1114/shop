@@ -24,15 +24,10 @@ public class Item {
     @Column(length = 500, nullable = false)
     private String feature;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     @Builder
-    public Item(String name, Integer price, String feature, Member member) {
+    public Item(String name, Integer price, String feature) {
         this.name = name;
         this.price = price;
         this.feature = feature;
-        this.member = member;
     }
 }

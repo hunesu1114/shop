@@ -1,5 +1,6 @@
 package project.shop.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,10 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @OneToMany(mappedBy = "member")
-    private List<Item> items = new ArrayList<>();
+    private String email;
+
+    @Builder
+    public Member(String email) {
+        this.email = email;
+    }
 }
