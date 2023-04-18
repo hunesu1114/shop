@@ -20,7 +20,7 @@ public class InitData {
     private final MemberService memberService;
     private final ItemService itemService;
 
-    @EventListener(ApplicationReadyEvent.class)
+    /*@EventListener(ApplicationReadyEvent.class)
     @Transactional
     public void initData() {
         Member member = Member.builder().email("kewcxea@naver.com").build();
@@ -28,5 +28,5 @@ public class InitData {
 
         Item item=Item.builder().name("상품명1").price(10000).feature("상품설명1").build();
         itemService.save(item);
-    }
+    }*/
 }

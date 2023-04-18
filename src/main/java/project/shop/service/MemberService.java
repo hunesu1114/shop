@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.shop.entity.Member;
+import project.shop.entity.Order;
 import project.shop.repository.MemberRepository;
 
 import java.util.Optional;
@@ -23,4 +24,6 @@ public class MemberService {
         Optional<Member> member = memberRepository.findById(id);
         return member.orElseThrow();
     }
+
+
 }

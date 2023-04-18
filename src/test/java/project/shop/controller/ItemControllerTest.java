@@ -28,7 +28,7 @@ public class ItemControllerTest {
 
     @Test
     public void item리스트_조회() throws Exception {
-        mvc.perform(get("/item/list"))
+        mvc.perform(get("/item/list/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("item/list"));
     }

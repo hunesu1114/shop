@@ -1,11 +1,13 @@
 package project.shop.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.shop.entity.Item;
 import project.shop.repository.ItemRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,5 +23,13 @@ public class ItemService {
     public Item findById(Long id) {
         Optional<Item> item = itemRepository.findById(id);
         return item.orElseThrow();
+    }
+
+    public List<Item> findAllByPage(Pageable pageable) {
+        return itemRepository.findAll(pageable).getContent();
+    }
+
+    public int itemCount() {
+        return Long.valueOf(itemRepository.count()).intValue();
     }
 }
