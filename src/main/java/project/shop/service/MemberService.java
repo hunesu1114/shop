@@ -25,5 +25,12 @@ public class MemberService {
         return member.orElseThrow();
     }
 
+    public Member findByEmail(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        return member.orElseThrow();
+    }
+
+
+
 
 }

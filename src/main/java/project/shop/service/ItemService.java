@@ -32,4 +32,8 @@ public class ItemService {
     public int itemCount() {
         return Long.valueOf(itemRepository.count()).intValue();
     }
+
+    public void deleteItem(Item item) {
+        itemRepository.delete(item);
+    }
 }

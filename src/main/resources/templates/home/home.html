@@ -17,17 +17,22 @@
 </head>
 <body>
 <div class="container">
-    <div class="text-center" style="margin-top:20%"><h1>Shop</h1></div>
+    <div class="text-center" style="margin-top:10%"><h1>Shop</h1></div>
+    <div class="text-center" th:if="${loginStatus}" th:text="|${memberName}님 어서 오세요|">Shop</div>
     <div class="row">
         <div class="col-md-4 offset-md-5">
-            <button class="btn btn-primary" th:onclick="|location.href='@{/member/login}'|">로그인</button>
+            <button th:if="${loginStatus}" class="btn btn-primary" th:onclick="|location.href='@{/member/logout}'|">로그아웃</button>
+            <button th:if="${!loginStatus}" class="btn btn-primary" th:onclick="|location.href='@{/member/login}'|">로그인</button>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-4 offset-md-5">
-            <button class="btn btn-primary" th:onclick="|location.href='@{/member/registration}'|">회원가입</button>
+            <button th:if="${loginStatus}" class="btn btn-primary" th:onclick="|location.href='@{/member/mypage}'|">마이페이지</button>
+            <button th:if="${!loginStatus}" class="btn btn-primary" th:onclick="|location.href='@{/member/registration}'|">회원가입</button>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-4 offset-md-5">
             <button class="btn btn-primary" th:onclick="|location.href='@{/item/list}'|">상품리스트</button>

@@ -18,11 +18,20 @@ public class Member extends BaseTimeEntity{
     @Column(name = "member_id")
     private Long id;
 
+    @Column(nullable = false)
     private String email;
 
-    private String nickName;
+    @Column(nullable = false)
+    private String name;
+
+    private String picture;
+
     @Embedded
     private Address address;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     //주소 칼럼 값타입으로 구현해야함
 
@@ -33,7 +42,20 @@ public class Member extends BaseTimeEntity{
     private List<Item> sellingItems = new ArrayList<>();
 
     @Builder
-    public Member(String email) {
+    public Member(String email, String name, String picture, Role role) {
         this.email = email;
+        this.name = name;
+        this.picture = picture;
+        this.role = role;
+    }
+
+    public Member update(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
+        return this;
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
     }
 }

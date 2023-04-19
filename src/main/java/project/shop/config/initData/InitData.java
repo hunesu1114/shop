@@ -1,4 +1,4 @@
-package project.shop.config;
+package project.shop.config.initData;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
