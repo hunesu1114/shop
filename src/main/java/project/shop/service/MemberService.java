@@ -20,6 +20,12 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    public Member updateName(Member member, String newName) {
+        String name = member.getName();
+        name = newName;
+        return member;
+    }
+
     public Member findById(Long id) {
         Optional<Member> member = memberRepository.findById(id);
         return member.orElseThrow();

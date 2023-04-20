@@ -1,11 +1,14 @@
 package project.shop.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import project.shop.config.auth.dto.SessionMember;
+import project.shop.entity.Member;
+import project.shop.service.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,7 +16,10 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Controller
 @RequestMapping("/home")
+@RequiredArgsConstructor
 public class HomeController {
+
+    private final MemberService memberService;
 
     @GetMapping("")
     public String home(Model model, HttpServletRequest request) {
@@ -26,14 +32,8 @@ public class HomeController {
             String memberName = member.getName();
             model.addAttribute("memberName", memberName);
         }
-//        log.info("비회원 홈페이지");
-            return "home/home";
+        return "home/home";
 
     }
 
-    @GetMapping("/login")
-    public String home_member() {
-        log.info("회원 홈페이지");
-        return "home/home_member";
-    }
 }

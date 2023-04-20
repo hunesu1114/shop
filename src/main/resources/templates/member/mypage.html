@@ -1,1 +1,47 @@
-마이페이지
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <meta charset="utf-8">
+
+    <style>
+        button{
+            width:60px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="text-center" style="margin-top:20%"><h1>마이페이지</h1></div>
+    </div>
+
+    <form action="" method="post" th:object="${member}">
+
+        <div class="row">
+            <span class="col-md-4 offset-md-5">
+                닉네임 : <input type="text" th:field="*{nickName}">
+                <button class="btn btn-info" type="submit">저장</button>
+                <br>
+                <p th:if="${edited}" style="color:green">닉네임 저장 완료</p>
+            </span>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4 offset-md-5">
+                <button class="btn btn-info" type="button" style="width:200px"
+                        onclick="location.href='index.html'"
+                        th:onclick="|location.href='@{/home}'|">
+                    메인으로
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

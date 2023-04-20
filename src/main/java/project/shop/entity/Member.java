@@ -24,6 +24,8 @@ public class Member extends BaseTimeEntity{
     @Column(nullable = false)
     private String name;
 
+    private String nickName;
+
     private String picture;
 
     @Embedded
@@ -52,6 +54,11 @@ public class Member extends BaseTimeEntity{
     public Member update(String name, String picture) {
         this.name = name;
         this.picture = picture;
+        return this;
+    }
+
+    public Member updateNickName(String nickName) {
+        this.nickName = nickName;
         return this;
     }
 

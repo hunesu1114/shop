@@ -3,13 +3,16 @@ package project.shop.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.shop.config.auth.dto.SessionMember;
+import project.shop.dto.MemberDto;
 import project.shop.entity.Member;
 import project.shop.repository.MemberRepository;
 import project.shop.service.MemberService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
@@ -24,22 +27,43 @@ public class MemberController {
         return "member/login";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "redirect:/home";
+    }
+
     @GetMapping("/registration")
     public String registration() {
         return "member/registration";
     }
 
+    @GetMapping("/mypage")
+    public String myPageRedir(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession();
+        SessionMember sessionMember = (SessionMember) session.getAttribute("member");
+        Member member = memberService.findByEmail(sessionMember.getEmail());
+        redirectAttributes.addAttribute("id", member.getId());
+        return "redirect:/member/mypage/{id}";
+    }
+
     @GetMapping("/mypage/{id}")
     public String myPage(@PathVariable Long id, Model model) {
         Member member = memberService.findById(id);
-        model.addAttribute("member", member);
+        MemberDto dto = new MemberDto();
+        dto.setNickName(member.getNickName());
+        model.addAttribute("member", dto);
         return "member/mypage";
     }
 
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
+    @PostMapping("/mypage/{id}")
+    public String myPage(@PathVariable Long id, @ModelAttribute MemberDto dto,RedirectAttributes redirectAttributes) {
         Member member = memberService.findById(id);
-        model.addAttribute("member", member);
-        return "member/edit";
+        member.updateNickName(dto.getNickName());
+        redirectAttributes.addAttribute("id", id);
+        redirectAttributes.addAttribute("edited", true);
+        return "redirect:/member/mypage/{id}";
     }
+
 }
