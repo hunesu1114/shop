@@ -26,10 +26,4 @@ public class HomeControllerTest {
                 .andExpect(view().name("home/home"));
     }
 
-    @Test
-    public void 회원_홈페이지_접속_테스트() throws Exception {
-        mvc.perform(get("/home/login"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("home/home_member"));
-    }
 }

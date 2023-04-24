@@ -3,6 +3,7 @@ package project.shop.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.shop.dto.MemberDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -65,4 +66,6 @@ public class Member extends BaseTimeEntity{
     public String getRoleKey() {
         return this.role.getKey();
     }
+
+
 }

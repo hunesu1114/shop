@@ -1,29 +1,39 @@
 package project.shop.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.shop.config.auth.dto.SessionMember;
+import project.shop.dto.ItemDto;
+import project.shop.dto.MemberDto;
 import project.shop.entity.Item;
+import project.shop.entity.Member;
 import project.shop.pagination.Pagination;
 import project.shop.pagination.PagingConst;
 import project.shop.repository.ItemRepository;
 import project.shop.service.ItemService;
+import project.shop.service.MemberService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/item")
 @RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
+    private final MemberService memberService;
 
     @GetMapping("/list/{page}")
     public String itemList(@PathVariable int page, Model model) {
@@ -40,13 +50,56 @@ public class ItemController {
     }
 
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(Model model, HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        SessionMember sessionMember = (SessionMember)session.getAttribute("member");
+
+        Member member = memberService.findByEmail(sessionMember.getEmail());
+        MemberDto memberDto = memberService.toMemberDto(member);
+
+        log.info("{}", memberDto.getEmail());
+        log.info("{}", memberDto.getName());
+        log.info("{}", memberDto.getPicture());
+
+        model.addAttribute("item", new ItemDto());
+        model.addAttribute("member", memberDto);
+
         return "item/registration";
     }
 
+    @PostMapping("/registration")
+    public String registration(@ModelAttribute("item") ItemDto itemDto,
+                               @ModelAttribute("member") MemberDto memberDto,
+                               RedirectAttributes redirectAttributes) {
+
+        //null나옴
+        log.info("{}", memberDto.getEmail());
+        log.info("{}", memberDto.getName());
+        log.info("{}", memberDto.getPicture());
+
+        Member member = memberService.findByEmail(memberDto.getEmail());
+
+        Item item = Item.builder().name(itemDto.getName())
+                .price(itemDto.getPrice())
+                .feature(itemDto.getFeature())
+                .member(member)
+                .build();
+        itemService.save(item);
+        redirectAttributes.addAttribute("id", item.getId());
+        return "redirect:/item/{id}";
+    }
+
     @GetMapping("/{id}")
-    public String item(@PathVariable Long id,Model model) {
+    public String item(@PathVariable Long id,Model model,HttpServletRequest request) {
         Item item = itemService.findById(id);
+        HttpSession session = request.getSession();
+        SessionMember sessionMember = (SessionMember)session.getAttribute("member");
+        if (item.getMember().getEmail()!=null&&item.getMember().getEmail().equals(sessionMember.getEmail())) {
+            model.addAttribute("isSeller", true);
+        } else {
+            model.addAttribute("isSeller", false);
+        }
+        model.addAttribute("isSeller", true);
         model.addAttribute("item", item);
         return "item/item";
     }

@@ -31,9 +31,14 @@ public class ItemService {
 
     public int itemCount() {
         return Long.valueOf(itemRepository.count()).intValue();
+        //count()의 리턴값이 long이라서 Long으로 변환 후 int로
     }
 
     public void deleteItem(Item item) {
         itemRepository.delete(item);
+    }
+
+    public void clear() {
+        itemRepository.deleteAll();
     }
 }

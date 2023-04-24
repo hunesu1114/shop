@@ -21,7 +21,7 @@
 
         <div class="row">
             <div class="col-md-4 offset-md-2">
-                판매자명 : <p th:field="*{member.getNickName}"></p>
+                판매자명 : <p th:field="*{member.name}"></p>
             </div>
         </div>
 
@@ -40,17 +40,17 @@
         <div class="row" style="margin-top:20px">
             <div class="col-md-8 offset-md-2">
                 <p>상품 설명</p>
-                <textarea style="border: none" rows="20%" cols="115%" th:field="feature" readonly></textarea>
+                <textarea style="border: none" rows="20%" cols="115%" th:field="*{feature}" readonly></textarea>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-4 offset-md-4">
-                <button class="btn btn-info" type="button" th:if="&{isSeller}"
+                <button class="btn btn-info" type="button" th:if="${isSeller}"
                         th:onclick="|location.href='@{/member/edit/{memberId} (memberId=*{id})}'|">
                     상품 수정
                 </button>
-                <button class="btn btn-info" type="button" th:if="&{!isSeller}"
+                <button class="btn btn-info" type="button" th:if="${!isSeller}"
                         th:onclick="|location.href='@{/member/edit/{memberId} (memberId=*{id})}'|">
                     상품 구매
                 </button>

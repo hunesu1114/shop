@@ -3,6 +3,7 @@ package project.shop.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.shop.dto.MemberDto;
 import project.shop.entity.Member;
 import project.shop.entity.Order;
 import project.shop.repository.MemberRepository;
@@ -20,12 +21,6 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Member updateName(Member member, String newName) {
-        String name = member.getName();
-        name = newName;
-        return member;
-    }
-
     public Member findById(Long id) {
         Optional<Member> member = memberRepository.findById(id);
         return member.orElseThrow();
@@ -36,7 +31,8 @@ public class MemberService {
         return member.orElseThrow();
     }
 
-
-
-
+    public MemberDto toMemberDto(Member member) {
+        MemberDto dto = MemberDto.builder().email(member.getEmail()).name(member.getName()).picture(member.getPicture()).build();
+        return dto;
+    }
 }

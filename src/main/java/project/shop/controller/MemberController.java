@@ -51,8 +51,7 @@ public class MemberController {
     @GetMapping("/mypage/{id}")
     public String myPage(@PathVariable Long id, Model model) {
         Member member = memberService.findById(id);
-        MemberDto dto = new MemberDto();
-        dto.setNickName(member.getNickName());
+        MemberDto dto = memberService.toMemberDto(member);
         model.addAttribute("member", dto);
         return "member/mypage";
     }

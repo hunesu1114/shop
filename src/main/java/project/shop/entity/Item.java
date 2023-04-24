@@ -27,17 +27,21 @@ public class Item extends BaseTimeEntity{
     @Column(length = 500, nullable = false)
     private String feature;
 
+    //구매시
     @OneToMany(mappedBy = "item")
     private List<OrderItem> orderItems=new ArrayList<>();
 
+    //판매시
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public Item(String name, Integer price, String feature) {
+    public Item(String name, Integer price, String feature, Member member) {
         this.name = name;
         this.price = price;
         this.feature = feature;
+        this.member = member;
     }
+
 }
