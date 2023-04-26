@@ -50,7 +50,7 @@ public class ItemController {
     }
 
     @GetMapping("/registration")
-    public String registration(Model model, HttpServletRequest request, HttpServletResponse response) {
+    public String registration(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         SessionMember sessionMember = (SessionMember)session.getAttribute("member");
 
@@ -65,28 +65,6 @@ public class ItemController {
         model.addAttribute("member", memberDto);
 
         return "item/registration";
-    }
-
-    @PostMapping("/registration")
-    public String registration(@ModelAttribute("item") ItemDto itemDto,
-                               @ModelAttribute("member") MemberDto memberDto,
-                               RedirectAttributes redirectAttributes) {
-
-        //null나옴
-        log.info("{}", memberDto.getEmail());
-        log.info("{}", memberDto.getName());
-        log.info("{}", memberDto.getPicture());
-
-        Member member = memberService.findByEmail(memberDto.getEmail());
-
-        Item item = Item.builder().name(itemDto.getName())
-                .price(itemDto.getPrice())
-                .feature(itemDto.getFeature())
-                .member(member)
-                .build();
-        itemService.save(item);
-        redirectAttributes.addAttribute("id", item.getId());
-        return "redirect:/item/{id}";
     }
 
     @GetMapping("/{id}")
@@ -107,7 +85,8 @@ public class ItemController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
         Item item = itemService.findById(id);
-        model.addAttribute("item", item);
+        model.addAttribute("item", item.toDto());
+        model.addAttribute("id", id);
         return "item/edit";
     }
 

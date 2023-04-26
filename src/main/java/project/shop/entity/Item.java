@@ -3,6 +3,7 @@ package project.shop.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.shop.dto.ItemDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -42,6 +43,23 @@ public class Item extends BaseTimeEntity{
         this.price = price;
         this.feature = feature;
         this.member = member;
+    }
+
+    //연관관계 메서드
+    public void setMember(Member member) {
+        this.member = member;
+        member.getSellingItems().add(this);
+    }
+
+    public ItemDto toDto() {
+        return ItemDto.builder().name(this.name).price(this.price).feature(this.feature).member(this.member).build();
+    }
+
+    public Item update(ItemDto dto) {
+        this.name = dto.getName();
+        this.price = dto.getPrice();
+        this.feature = dto.getFeature();
+        return this;
     }
 
 }

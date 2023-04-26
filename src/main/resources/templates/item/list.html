@@ -22,8 +22,9 @@
             <thead>
             <tr>
                 <th scope="col" class="col-md-1">번호</th>
-                <th scope="col" class="col-md-3">제목</th>
-                <th scope="col" class="col-md-1">작성자</th>
+                <th scope="col" class="col-md-2">상품명</th>
+                <th scope="col" class="col-md-1">가격</th>
+                <th scope="col" class="col-md-1">판매자</th>
                 <th scope="col" class="col-md-1">작성일자</th>
             </tr>
             </thead>
@@ -36,6 +37,8 @@
 
                 <td><a href="post" th:href="@{/item/{id} (id=${item.id})}"
                        th:text="${item.name}">상품명</a></td>
+
+                <td th:text="${item.price}">가격</td>
 
                 <td th:text="${item.member.name}">판매자</td>
 

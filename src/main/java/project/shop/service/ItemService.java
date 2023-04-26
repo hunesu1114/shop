@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.shop.dto.ItemDto;
 import project.shop.entity.Item;
 import project.shop.repository.ItemRepository;
 
@@ -23,6 +24,12 @@ public class ItemService {
     public Item findById(Long id) {
         Optional<Item> item = itemRepository.findById(id);
         return item.orElseThrow();
+    }
+
+    public Item update(Long id, ItemDto dto) {
+        Item item = itemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다. id=" + id));
+        item.update(dto);
+        return item;
     }
 
     public List<Item> findAllByPage(Pageable pageable) {

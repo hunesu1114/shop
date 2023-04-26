@@ -21,13 +21,19 @@
 
         <div class="row">
             <div class="col-md-4 offset-md-2">
-                판매자명 : <p th:field="*{member.name}"></p>
+                상품 등록 번호 : <span th:text="*{id}"></span>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-4 offset-md-2">
-                상품명 : <input type="text" th:field="*{price}" readonly>
+                판매자명 : <span th:text="*{member.name}"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 offset-md-2">
+                가격 : <input type="text" th:field="*{price}" readonly>
             </div>
         </div>
 
@@ -47,11 +53,11 @@
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <button class="btn btn-info" type="button" th:if="${isSeller}"
-                        th:onclick="|location.href='@{/member/edit/{memberId} (memberId=*{id})}'|">
+                        th:onclick="|location.href='@{/item/edit/{itemId} (itemId=*{id})}'|">
                     상품 수정
                 </button>
                 <button class="btn btn-info" type="button" th:if="${!isSeller}"
-                        th:onclick="|location.href='@{/member/edit/{memberId} (memberId=*{id})}'|">
+                        th:onclick="|location.href='@{/item/buy/{itemId} (itemId=*{id})}'|">
                     상품 구매
                 </button>
                 <button class="btn btn-info" type="button"
