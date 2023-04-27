@@ -28,6 +28,7 @@ public class ItemRestController {
 
         Item item = itemService.save(itemDto.toEntity());
         item.setMember(memberService.findByEmail(sessionMember.getEmail()));
+
         return item.getId();
     }
 
@@ -35,4 +36,7 @@ public class ItemRestController {
     public Item update(@PathVariable Long id, @RequestBody ItemDto dto) {
         return itemService.update(id, dto);
     }
+
+
+
 }

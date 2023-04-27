@@ -41,6 +41,11 @@ public class ItemController {
         List<Item> items = itemService.findAllByPage(pageable);
         Pagination pagination = new Pagination(itemService.itemCount(), page);
 
+        //LocalDateTime 깔끔하게 세팅
+        for (Item item : items) {
+            item.setTimeString();
+        }
+
         model.addAttribute("pagination", pagination);
         model.addAttribute("pagesInCurrentBlock", pagination.pagesInCurrentBlock());
         model.addAttribute("items", items);
@@ -72,12 +77,15 @@ public class ItemController {
         Item item = itemService.findById(id);
         HttpSession session = request.getSession();
         SessionMember sessionMember = (SessionMember)session.getAttribute("member");
-        if (item.getMember().getEmail()!=null&&item.getMember().getEmail().equals(sessionMember.getEmail())) {
-            model.addAttribute("isSeller", true);
-        } else {
+        if (sessionMember == null) {
             model.addAttribute("isSeller", false);
+        } else{
+            if (item.getMember().getEmail().equals(sessionMember.getEmail())) {
+                model.addAttribute("isSeller", true);
+            } else {
+                model.addAttribute("isSeller", false);
+            }
         }
-        model.addAttribute("isSeller", true);
         model.addAttribute("item", item);
         return "item/item";
     }
@@ -90,8 +98,16 @@ public class ItemController {
         return "item/edit";
     }
 
+    @GetMapping("/item/order/{id}")
+    public String order(@PathVariable Long id, Model model) {
+        Item item = itemService.findById(id);
+        ItemDto dto = item.toDto();
+        model.addAttribute("item", dto);
+        return "item/order";
+    }
+
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String delete(@PathVariable Long id) {
         Item item = itemService.findById(id);
         itemService.deleteItem(item);
         return "redirect:/item/list/1";

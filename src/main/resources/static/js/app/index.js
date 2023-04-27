@@ -34,7 +34,6 @@ var main = {
         });
     },
 
-    /*여기서 오류 생김*/
     update : function () {
         var data = {
             name: $('#name').val(),
@@ -57,22 +56,10 @@ var main = {
             alert(JSON.stringify(error));
         });
     },
+
     delete : function () {
-        var id = $('#id').val();
-
-        $.ajax({
-            type: 'DELETE',
-            url: '/api/v1/posts/'+id,
-            dataType: 'json',
-            contentType:'application/json; charset=utf-8'
-        }).done(function() {
-            alert('글이 삭제되었습니다.');
-            window.location.href = '/';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
-        });
+        alert('상품이 삭제되었습니다.');
     }
-
 };
 
 main.init();

@@ -12,42 +12,41 @@
 </head>
 <body>
 <div class="container">
-
-
     <form action="" method="post" th:object="${item}">
         <div class="row">
-            <div class="text-center" style="margin-top:5%; margin-bottom:3%";><h1 th:text="*{name}">상품명</h1></div>
+            <div class="text-center" style="margin-top:5%; margin-bottom:3%";><h1 th:text="*{name}">상품 주문</h1></div>
         </div>
 
         <div class="row">
-            <div class="col-md-4 offset-md-2">
-                상품 등록 번호 : <span th:text="*{id}"></span>
-            </div>
-        </div>
+            <table class="table col-md-6 text-center">
+                <thead>
+                <tr>
+                    <th scope="col" class="col-md-1">번호</th>
+                    <th scope="col" class="col-md-2">상품명</th>
+                    <th scope="col" class="col-md-1">가격</th>
+                    <th scope="col" class="col-md-1">판매자</th>
+                    <th scope="col" class="col-md-1">작성일자</th>
+                </tr>
+                </thead>
 
-        <div class="row">
-            <div class="col-md-4 offset-md-2">
-                판매자명 : <span th:text="*{member.name}"></span>
-            </div>
-        </div>
+                <tbody>
+                <tr scope="row" th:each="item : ${items}">
 
-        <div class="row">
-            <div class="col-md-4 offset-md-2">
-                가격 : <input type="text" th:field="*{price}" readonly>
-            </div>
-        </div>
+                    <td><a href="item" th:href="@{/item/{id} (id=${item.id})}"
+                           th:text="${item.id}">상품id</a></td>
 
-        <div class="row">
-            <div class="col-md-4 offset-md-2">
-                <!--사진 한장 업로드-->
-            </div>
-        </div>
+                    <td><a href="post" th:href="@{/item/{id} (id=${item.id})}"
+                           th:text="${item.name}">상품명</a></td>
 
-        <div class="row" style="margin-top:20px">
-            <div class="col-md-8 offset-md-2">
-                <p>상품 설명</p>
-                <textarea style="border: none" rows="20%" cols="115%" th:field="*{feature}" readonly></textarea>
-            </div>
+                    <td th:text="${item.price}">가격</td>
+
+                    <td th:text="${item.member.name}">판매자</td>
+
+                    <td th:text="${item.createDateTimeString}">작성일자</td>
+
+                </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="row">

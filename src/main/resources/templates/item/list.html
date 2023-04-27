@@ -15,7 +15,7 @@
 <body>
 
 <div class="container">
-    <h1 class="text-center">상품리스트</h1>
+    <h1 class="text-center" style="margin-top : 100px">상품리스트</h1>
 
     <div class="row">
         <table class="table col-md-6 text-center">
@@ -42,7 +42,7 @@
 
                 <td th:text="${item.member.name}">판매자</td>
 
-                <td th:text="${item.createdDate}">작성일자</td>
+                <td th:text="${item.createDateTimeString}">작성일자</td>
 
             </tr>
             </tbody>

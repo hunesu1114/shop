@@ -1,7 +1,6 @@
 package project.shop.config.auth.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 import project.shop.entity.Member;
 
 import java.io.Serializable;

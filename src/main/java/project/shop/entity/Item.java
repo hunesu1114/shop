@@ -1,14 +1,18 @@
 package project.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import project.shop.dto.ItemDto;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Getter
 @NoArgsConstructor
 @Entity
@@ -35,7 +39,11 @@ public class Item extends BaseTimeEntity{
     //판매시
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonIgnore //이거 안해주면 stackoverflow(무한참조)
     private Member member;
+
+    @Transient  //column으로 안만듦
+    private String createDateTimeString;
 
     @Builder
     public Item(String name, Integer price, String feature, Member member) {
@@ -61,5 +69,25 @@ public class Item extends BaseTimeEntity{
         this.feature = dto.getFeature();
         return this;
     }
+
+    public void setTimeString() {
+        LocalDateTime source = this.getCreatedDate();
+        int month = source.getMonth().getValue();
+        int day = source.getDayOfMonth();
+        int hour = source.getHour();
+        int minute = source.getMinute();
+        StringBuilder string = new StringBuilder();
+        string.append(month);
+        string.append("월");
+        string.append(day);
+        string.append("일 ");
+        string.append(hour);
+        string.append(":");
+        string.append(minute);
+        this.createDateTimeString = string.toString();
+        log.info("=========CDTS : {}",this.createDateTimeString);
+    }
+
+
 
 }
