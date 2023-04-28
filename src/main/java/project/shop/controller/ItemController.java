@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -75,18 +76,18 @@ public class ItemController {
     @GetMapping("/{id}")
     public String item(@PathVariable Long id,Model model,HttpServletRequest request) {
         Item item = itemService.findById(id);
-        HttpSession session = request.getSession();
-        SessionMember sessionMember = (SessionMember)session.getAttribute("member");
-        if (sessionMember == null) {
+        Optional<Member> member = memberService.getMemberFromSession(request);
+        if (member == null) {
             model.addAttribute("isSeller", false);
         } else{
-            if (item.getMember().getEmail().equals(sessionMember.getEmail())) {
+            if (item.getMember().getEmail().equals(member.orElseThrow(()->new IllegalArgumentException("세션멤버 없음")).getEmail())) {
                 model.addAttribute("isSeller", true);
             } else {
                 model.addAttribute("isSeller", false);
             }
         }
         model.addAttribute("item", item);
+        model.addAttribute("member", member);
         return "item/item";
     }
 
@@ -99,11 +100,11 @@ public class ItemController {
     }
 
     @GetMapping("/item/order/{id}")
-    public String order(@PathVariable Long id, Model model) {
+    public String order(@PathVariable Long id, HttpServletRequest request, Model model) {
+        Member member = memberService.getMemberFromSession(request);
         Item item = itemService.findById(id);
-        ItemDto dto = item.toDto();
-        model.addAttribute("item", dto);
-        return "item/order";
+        item.setMember(member);
+        return "member/cart";
     }
 
     @GetMapping("/delete/{id}")

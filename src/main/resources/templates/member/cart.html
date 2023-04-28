@@ -14,7 +14,7 @@
 <div class="container">
     <form action="" method="post" th:object="${order}">
         <div class="row">
-            <div class="text-center" style="margin-top:5%; margin-bottom:3%";><h1>상품 주문</h1></div>
+            <div class="text-center" style="margin-top:5%; margin-bottom:3%";><h1>장바구니</h1></div>
         </div>
 
         <div class="row">
@@ -46,21 +46,16 @@
             </table>
         </div>
 
-        <div class="row">
-            <div class="col-md-4 offset-md-4">
-                도로명 주소 : <input type="text" th:field>
-            </div>
 
-        </div>
 
         <div class="row">
             <div class="col-md-4 offset-md-4">
-                <button class="btn btn-info" type="button" th:if="${isSeller}"
-                        th:onclick="|location.href='@{/item/edit/{itemId} (itemId=*{id})}'|">
-                    상품 수정
+                <button class="btn btn-info" type="button"
+                        th:onclick="|location.href='@{/home'|">
+                    메인으로
                 </button>
                 <button class="btn btn-info" type="button" th:if="${!isSeller}"
-                        th:onclick="|location.href='@{/item/order/{itemId} (itemId=*{id})}'|">
+                        th:onclick="|location.href='@{/item/order/{memberId} (memberId=*{memberId})}'|">
                     상품 구매
                 </button>
                 <button class="btn btn-info" type="button"

@@ -22,6 +22,10 @@ public class Order extends BaseTimeEntity{
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Delivery delivery;
+
+
     public int getTotalPrice() {
         int sum=0;
         for (OrderItem orderItem : orderItems) {
