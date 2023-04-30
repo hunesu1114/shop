@@ -1,5 +1,6 @@
 package project.shop.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -25,32 +26,33 @@ public class Order extends BaseTimeEntity{
     @Enumerated(EnumType.STRING)
     private Delivery delivery;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     public int getTotalPrice() {
         int sum=0;
         for (OrderItem orderItem : orderItems) {
-            sum += orderItem.getPrice();
+            sum += orderItem.getItem().getPrice();
         }
         return sum;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
-        member.getOrders().add(this);
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
     }
 
-    public void addItem(OrderItem orderItem) {
+    public void setStatus(OrderStatus orderStatus) {
+        this.status = orderStatus;
+    }
+
+    public void addOrderItem(OrderItem orderItem) {
         this.orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
 
-    public static Order createOrder(Member member, OrderItem... orderItems) {
-        Order order = new Order();
-        order.setMember(member);
-        for (OrderItem orderItem : orderItems) {
-            order.getOrderItems().add(orderItem);
-        }
-        return order;
+    public Order(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+        this.status = OrderStatus.UNPAID;
     }
-
 }

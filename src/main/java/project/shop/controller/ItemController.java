@@ -76,16 +76,19 @@ public class ItemController {
     @GetMapping("/{id}")
     public String item(@PathVariable Long id,Model model,HttpServletRequest request) {
         Item item = itemService.findById(id);
+        Member seller = item.getMember();
+
         Optional<Member> member = memberService.getMemberFromSession(request);
         if (member == null) {
             model.addAttribute("isSeller", false);
         } else{
-            if (item.getMember().getEmail().equals(member.orElseThrow(()->new IllegalArgumentException("세션멤버 없음")).getEmail())) {
+            if (seller.getEmail().equals(member.orElseThrow(()->new IllegalArgumentException("세션멤버 없음")).getEmail())) {
                 model.addAttribute("isSeller", true);
             } else {
                 model.addAttribute("isSeller", false);
             }
         }
+
         model.addAttribute("item", item);
         model.addAttribute("member", member);
         return "item/item";
@@ -99,13 +102,12 @@ public class ItemController {
         return "item/edit";
     }
 
-    @GetMapping("/item/order/{id}")
+    /*@GetMapping("/item/order/{id}")
     public String order(@PathVariable Long id, HttpServletRequest request, Model model) {
-        Member member = memberService.getMemberFromSession(request);
+        Member member = memberService.getMemberFromSession(request).orElseThrow(()-> new IllegalArgumentException("오류 : '/item/order/'"+id));
         Item item = itemService.findById(id);
-        item.setMember(member);
         return "member/cart";
-    }
+    }*/
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {

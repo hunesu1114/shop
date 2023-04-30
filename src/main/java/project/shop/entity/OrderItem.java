@@ -1,11 +1,16 @@
 package project.shop.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
+@NoArgsConstructor
 public class OrderItem {
 
     @Id
@@ -23,11 +28,13 @@ public class OrderItem {
     //단일 상품 주문 갯수
     private int quantity;
 
-    public int getPrice() {
+    public int getTotalPrice() {
         return this.item.getPrice()*this.quantity;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+
+    public OrderItem(Item item, int quantity) {
+        this.item = item;
+        this.quantity = quantity;
     }
 }

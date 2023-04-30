@@ -32,9 +32,6 @@ public class Item extends BaseTimeEntity{
     @Column(length = 500, nullable = false)
     private String feature;
 
-    //구매시
-    @OneToMany(mappedBy = "item")
-    private List<OrderItem> orderItems=new ArrayList<>();
 
     //판매시
     @ManyToOne(fetch = FetchType.LAZY)
