@@ -8,8 +8,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.shop.config.auth.dto.SessionMember;
 import project.shop.dto.MemberDto;
 import project.shop.entity.Member;
+import project.shop.entity.Order;
 import project.shop.repository.MemberRepository;
 import project.shop.service.MemberService;
+import project.shop.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,7 +23,7 @@ import java.util.Optional;
 public class MemberController {
 
     private final MemberService memberService;
-
+    private final OrderService orderService;
     @GetMapping("/login")
     public String login() {
         return "member/login";
@@ -57,7 +59,7 @@ public class MemberController {
     }
 
     @PostMapping("/mypage/{id}")
-    public String myPage(@PathVariable Long id, @ModelAttribute MemberDto dto,RedirectAttributes redirectAttributes) {
+    public String myPage(@PathVariable Long id, @ModelAttribute MemberDto dto, RedirectAttributes redirectAttributes) {
         Member member = memberService.findById(id);
         member.updateNickName(dto.getNickName());
         redirectAttributes.addAttribute("id", id);
@@ -65,4 +67,19 @@ public class MemberController {
         return "redirect:/member/mypage/{id}";
     }
 
+
+    @GetMapping("/paymentLogic/{memberId}")
+    public String paymentPage(@PathVariable Long memberId, @RequestParam("orderId") Long orderId, Model model) {
+        Member member = memberService.findById(memberId);
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("member", member);
+        return "member/payment";
+    }
+
+    @PostMapping("/paymentLogic/{memberId}")
+    public String paymentPage(@PathVariable Long memberId, @ModelAttribute Long orderId, RedirectAttributes redirectAttributes) {
+        orderService.order(orderId);
+        redirectAttributes.addAttribute("memberId", memberId);
+        return "redirect:/member/mypage/{memberId}";
+    }
 }

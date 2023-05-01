@@ -15,11 +15,13 @@ import project.shop.dto.ItemDto;
 import project.shop.dto.MemberDto;
 import project.shop.entity.Item;
 import project.shop.entity.Member;
+import project.shop.entity.Order;
 import project.shop.pagination.Pagination;
 import project.shop.pagination.PagingConst;
 import project.shop.repository.ItemRepository;
 import project.shop.service.ItemService;
 import project.shop.service.MemberService;
+import project.shop.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +37,7 @@ public class ItemController {
 
     private final ItemService itemService;
     private final MemberService memberService;
+    private final OrderService orderService;
 
     @GetMapping("/list/{page}")
     public String itemList(@PathVariable int page, Model model) {
@@ -78,11 +81,11 @@ public class ItemController {
         Item item = itemService.findById(id);
         Member seller = item.getMember();
 
-        Optional<Member> member = memberService.getMemberFromSession(request);
+        Member member = memberService.getMemberFromSession(request).orElseThrow();
         if (member == null) {
             model.addAttribute("isSeller", false);
         } else{
-            if (seller.getEmail().equals(member.orElseThrow(()->new IllegalArgumentException("세션멤버 없음")).getEmail())) {
+            if (seller.getEmail().equals(member.getEmail())) {
                 model.addAttribute("isSeller", true);
             } else {
                 model.addAttribute("isSeller", false);
@@ -102,12 +105,22 @@ public class ItemController {
         return "item/edit";
     }
 
-    /*@GetMapping("/item/order/{id}")
-    public String order(@PathVariable Long id, HttpServletRequest request, Model model) {
-        Member member = memberService.getMemberFromSession(request).orElseThrow(()-> new IllegalArgumentException("오류 : '/item/order/'"+id));
-        Item item = itemService.findById(id);
+    //member나 order 컨트롤러 단에서 다루는게 나아보임. 이 메서드 옮기자
+    @GetMapping("/order/{memberId}")
+    public String order(@PathVariable Long memberId, @RequestParam("itemId") Long itemId, Model model) {
+        Order order = orderService.orderItem(memberId, itemId, 1);
+        model.addAttribute("order", order);
+
         return "member/cart";
-    }*/
+    }
+
+    @PostMapping("/order/{memberId}")
+    public String order(@PathVariable Long memberId ,@ModelAttribute Order order,RedirectAttributes redirectAttributes) {
+        orderService.save(order);
+        redirectAttributes.addAttribute("memberId", memberId);
+        redirectAttributes.addAttribute("orderId", order.getId());
+        return "member/{memberId}/order?orderId={orderId}";
+    }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {

@@ -32,7 +32,7 @@ public class Order extends BaseTimeEntity{
     public int getTotalPrice() {
         int sum=0;
         for (OrderItem orderItem : orderItems) {
-            sum += orderItem.getItem().getPrice();
+            sum += orderItem.getTotalPrice();
         }
         return sum;
     }

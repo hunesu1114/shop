@@ -39,25 +39,30 @@
 
                     <td th:text="${orderItem.item.price}">가격</td>
 
-                    <td><input type="number" min="1" th:value="*{orderItem.quantity}"></td>
+                    <td><input type="number" min="1" th:value="*{orderItem.quantity}" readonly></td>
 
                 </tr>
                 </tbody>
             </table>
         </div>
 
-
-
-
         <div class="row">
+            <div class="col-md-4 offset-md-5">
+                <h3 th:text="|총 가격 : '*{getTotalPrice()}'원|">상품 총 가격 명시</h3>
+                <button class="btn btn-primary" style="width:200px" th:onclick="location.href='@{/member/paymentLogic/{memberId} (memberId=*{member.id}, orderId=*{id})}'">결제하기</button>
+            </div>
+
+        </div>
+
+
+
+        <div class="row" style="margin-top:20px">
             <div class="col-md-4 offset-md-4">
                 <button class="btn btn-info" type="button"
                         th:onclick="|location.href='@{/home}'|">
                     메인으로
                 </button>
-                <button class="btn btn-info" type="submit">
-                    상품 구매
-                </button>
+
                 <button class="btn btn-info" type="button"
                         th:onclick="|location.href='@{/item/list/1}'|">
                     상품리스트
