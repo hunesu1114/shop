@@ -2,6 +2,7 @@ package project.shop.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity(name = "orders")
 @Getter
+@NoArgsConstructor
 public class Order extends BaseTimeEntity{
 
     @Id

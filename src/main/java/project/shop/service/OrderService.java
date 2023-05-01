@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.shop.entity.*;
 import project.shop.repository.ItemRepository;
 import project.shop.repository.MemberRepository;
+import project.shop.repository.OrderItemRepository;
 import project.shop.repository.OrderRepository;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class OrderService{
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
     public Order save(Order order) {
         return orderRepository.save(order);
@@ -34,17 +36,19 @@ public class OrderService{
         Member member = memberRepository.findById(memberId).orElseThrow();
         Item item = itemRepository.findById(itemId).orElseThrow();
         OrderItem orderItem = new OrderItem(item, quantity);
+        orderItemRepository.save(orderItem);
         List<Order> orders = member.getOrders();
 
         Order unpaidOrder = orders.stream().filter(order -> order.getStatus().equals(OrderStatus.UNPAID)).findAny().orElse(new Order(member));
         orderRepository.save(unpaidOrder);
         unpaidOrder.addOrderItem(orderItem);
-        return unpaidOrder;
+        return orderRepository.save(unpaidOrder);
     }
 
     public Order findById(Long id) {
         return orderRepository.findById(id).orElseThrow();
     }
+
     public Order order(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow();
         order.setStatus(OrderStatus.PAID);

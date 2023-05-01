@@ -67,6 +67,13 @@ public class MemberController {
         return "redirect:/member/mypage/{id}";
     }
 
+    @GetMapping("/{memberId}/order")
+    public String OrderPage(@PathVariable Long memberId, @RequestParam("orderId") Long orderId, Model model) {
+        Order order = orderService.findById(orderId);
+        model.addAttribute("order", order);
+        return "member/order";
+    }
+
 
     @GetMapping("/paymentLogic/{memberId}")
     public String paymentPage(@PathVariable Long memberId, @RequestParam("orderId") Long orderId, Model model) {

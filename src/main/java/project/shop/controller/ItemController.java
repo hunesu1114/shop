@@ -110,7 +110,6 @@ public class ItemController {
     public String order(@PathVariable Long memberId, @RequestParam("itemId") Long itemId, Model model) {
         Order order = orderService.orderItem(memberId, itemId, 1);
         model.addAttribute("order", order);
-
         return "member/cart";
     }
 
@@ -119,7 +118,7 @@ public class ItemController {
         orderService.save(order);
         redirectAttributes.addAttribute("memberId", memberId);
         redirectAttributes.addAttribute("orderId", order.getId());
-        return "member/{memberId}/order?orderId={orderId}";
+        return "redirect:/member/{memberId}/order?orderId={orderId}";
     }
 
     @GetMapping("/delete/{id}")

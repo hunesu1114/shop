@@ -35,11 +35,11 @@
                            th:text="${orderItem.id}">상품id</a></td>
 
                     <td><a href="post" th:href="@{/item/{id} (id=${orderItem.item.id})}"
-                           th:text="${orderItem.item.id}">상품명</a></td>
+                           th:text="${orderItem.item.name}">상품명</a></td>
 
                     <td th:text="${orderItem.item.price}">가격</td>
 
-                    <td><input type="number" min="1" th:value="*{orderItem.quantity}"></td>
+                    <td><input type="number" min="1" th:value="${orderItem.quantity}"></td>
 
                 </tr>
                 </tbody>
@@ -58,7 +58,7 @@
                 <button class="btn btn-info" type="submit">
                     상품 구매
                 </button>
-                <button class="btn btn-info" type="button"
+                <button class="btn btn-primary" type="button" style="width:200px; margin-top:10px"
                         th:onclick="|location.href='@{/item/list/1}'|">
                     상품리스트
                 </button>

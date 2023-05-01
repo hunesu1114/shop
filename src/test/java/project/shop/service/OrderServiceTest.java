@@ -74,8 +74,7 @@ public class OrderServiceTest {
         assertThat(orderItem1.getItem().getName()).isEqualTo("상품1");
         assertThat(orderItem2.getItem().getName()).isEqualTo("상품2");
 
-        log.info("order Id : {}", order.getId());
-        log.info("order Id : {}", orderItem1.getId());
+        log.info("orderItem1 Id : {}", orderItem1.getId());
         assertThat(orderItem1.getOrder().getId()).isEqualTo(1L);
         assertThat(orderItem2.getOrder().getId()).isEqualTo(1L);
     }
