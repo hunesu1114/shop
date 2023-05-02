@@ -61,22 +61,47 @@ public class OrderServiceTest {
         Item item1 = itemService.findById(3L);
         Item item2 = itemService.findById(4L);
         orderService.orderItem(buyer.getId(), item1.getId(), 3);
-        orderService.orderItem(buyer.getId(), item2.getId(), 4);
+        for (Order o : buyer.getOrders()) {
+            log.info("order id : {}", o.getId());
+            log.info("order member : {}", o.getMember().getName());
+            log.info("order totalPrice : {}", o.getTotalPrice());
+            log.info("order status : {}", o.getStatus());
+            for (OrderItem oi : o.getOrderItems()) {
+                log.info("orderItem Id : {}", oi.getId());
+                log.info("orderItem itemName : {}", oi.getItem().getName());
+                log.info("orderItem itemPrice : {}", oi.getItem().getPrice());
+                log.info("orderItem quantity : {}", oi.getQuantity());
+            }
+        }
+        log.info("==========================================");
+        orderService.orderItem(buyer.getId(), item2.getId(), 4);    //여기서 order가 새로운게 하나 더 생김
+        for (Order o : buyer.getOrders()) {
+            log.info("order id : {}", o.getId());
+            log.info("order member : {}", o.getMember().getName());
+            log.info("order totalPrice : {}", o.getTotalPrice());
+            log.info("order status : {}", o.getStatus());
+            for (OrderItem oi : o.getOrderItems()) {
+                log.info("orderItem Id : {}", oi.getId());
+                log.info("orderItem itemName : {}", oi.getItem().getName());
+                log.info("orderItem itemPrice : {}", oi.getItem().getPrice());
+                log.info("orderItem quantity : {}", oi.getQuantity());
+            }
+        }
+        log.info("==========================================");
 
         Order order = buyer.getOrders().get(0);
-        log.info("order Id: {}", order.getId());
-        log.info("order status: {}", order.getStatus());
-        log.info("orderItem1: {}", order.getOrderItems().get(0).getQuantity());
-        log.info("orderItem2: {}", order.getOrderItems().get(1).getItem().getName());
         OrderItem orderItem1 = order.getOrderItems().get(0);
         OrderItem orderItem2 = order.getOrderItems().get(1);
 
         assertThat(orderItem1.getItem().getName()).isEqualTo("상품1");
         assertThat(orderItem2.getItem().getName()).isEqualTo("상품2");
 
-        log.info("orderItem1 Id : {}", orderItem1.getId());
         assertThat(orderItem1.getOrder().getId()).isEqualTo(1L);
         assertThat(orderItem2.getOrder().getId()).isEqualTo(1L);
+
+        assertThat(order.getStatus()).isEqualTo(OrderStatus.UNPAID);
+
+
     }
 
     @Test

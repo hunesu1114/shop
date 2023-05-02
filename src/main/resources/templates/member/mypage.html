@@ -38,21 +38,45 @@
                     <th scope="col" class="col-md-1">배송현황</th>
                     <th scope="col" class="col-md-2">주문명</th>
                     <th scope="col" class="col-md-1">가격</th>
-                    <th scope="col" class="col-md-1">수량</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr scope="row" th:each="order : *{orders}">
+                <tr scope="row" th:each="order : ${orders}">
 
                     <td><p th:text="${order.delivery}">배송상태</p></td>
 
-                    <td><a href="post" th:href="@{/member/{memberId}/order (id=${order.member.id})}"
-                           th:text="|${order.orderItems.get(0).item.name} 외...|">주문명</a></td>
+                    <td><p th:text="${order.orderItems.get(0).item.name}+외...">주문명</p></td>
 
                     <td th:text="${order.getTotalPrice()}">가격</td>
 
-                    <td><input type="number" min="1" th:value="*{orderItem.quantity}" readonly></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row" style="margin-top:50px">
+            <div class="text-center"><h4>판매중인 상품</h4></div>
+        </div>
+
+        <div class="row">
+            <table class="table col-md-6 text-center">
+                <thead>
+                <tr>
+                    <th scope="col" class="col-md-1">등록 번호</th>
+                    <th scope="col" class="col-md-2">상품명</th>
+                    <th scope="col" class="col-md-1">상품가격</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr scope="row" th:each="item : ${sellingItems}">
+
+                    <td><a th:href="@{/item/{id} (id=${item.id})}" th:text="${item.id}">등록 번호</a></td>
+
+                    <td><a th:href="@{/item/{id} (id=${item.id})}" th:text="${item.name}">상품명</a></td>
+
+                    <td th:text="${item.price}">상품가격</td>
 
                 </tr>
                 </tbody>

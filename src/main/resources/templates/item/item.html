@@ -56,8 +56,7 @@
                         th:onclick="|location.href='@{/item/edit/{itemId} (itemId=*{id})}'|">
                     상품 수정
                 </button>
-                <button class="btn btn-info" type="button" th:if="${!isSeller}"
-                        th:onclick="|location.href='@{/item/order/{memberId} (memberId=${member.id}, itemId=*{id})}'|">
+                <button class="btn btn-info" type="submit" th:if="${!isSeller}">
                     상품 구매
                 </button>
                 <button class="btn btn-info" type="button"

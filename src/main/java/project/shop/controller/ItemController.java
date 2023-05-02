@@ -97,6 +97,15 @@ public class ItemController {
         return "item/item";
     }
 
+    @PostMapping("/{id}")
+    public String addItemToCart(@PathVariable Long id, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        Member member = memberService.getMemberFromSession(request).orElseThrow();
+        Order order = orderService.orderItem(member.getId(), id, 1);
+        redirectAttributes.addAttribute("orderId", order.getId());
+        redirectAttributes.addAttribute("memberId", member.getId());
+        return "redirect:/member/{memberId}/cart?orderId={orderId}";
+    }
+
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
         Item item = itemService.findById(id);
@@ -105,21 +114,7 @@ public class ItemController {
         return "item/edit";
     }
 
-    //member나 order 컨트롤러 단에서 다루는게 나아보임. 이 메서드 옮기자
-    @GetMapping("/order/{memberId}")
-    public String order(@PathVariable Long memberId, @RequestParam("itemId") Long itemId, Model model) {
-        Order order = orderService.orderItem(memberId, itemId, 1);
-        model.addAttribute("order", order);
-        return "member/cart";
-    }
 
-    @PostMapping("/order/{memberId}")
-    public String order(@PathVariable Long memberId ,@ModelAttribute Order order,RedirectAttributes redirectAttributes) {
-        orderService.save(order);
-        redirectAttributes.addAttribute("memberId", memberId);
-        redirectAttributes.addAttribute("orderId", order.getId());
-        return "redirect:/member/{memberId}/order?orderId={orderId}";
-    }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {

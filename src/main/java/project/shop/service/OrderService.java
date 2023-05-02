@@ -25,13 +25,11 @@ public class OrderService{
     private final OrderItemRepository orderItemRepository;
 
     public Order save(Order order) {
+
         return orderRepository.save(order);
     }
 
-    /**
-     * Optional 예외처리 리팩토링 필요
-     * 오류남
-     */
+
     public Order orderItem(Long memberId, Long itemId, int quantity) {
         Member member = memberRepository.findById(memberId).orElseThrow();
         Item item = itemRepository.findById(itemId).orElseThrow();
@@ -39,10 +37,13 @@ public class OrderService{
         orderItemRepository.save(orderItem);
         List<Order> orders = member.getOrders();
 
-        Order unpaidOrder = orders.stream().filter(order -> order.getStatus().equals(OrderStatus.UNPAID)).findAny().orElse(new Order(member));
-        orderRepository.save(unpaidOrder);
+        //여기서 기존 unpaidOrder에 orderItem 잘 추가하고, 이상하게 order를 하나 더 만들어 버림.. 빈거
+        Order unpaidOrder = orders.stream().filter(order -> order.getStatus().equals(OrderStatus.UNPAID)).findFirst().orElse(new Order(member));
+
         unpaidOrder.addOrderItem(orderItem);
-        return orderRepository.save(unpaidOrder);
+        orderRepository.save(unpaidOrder);
+
+        return unpaidOrder;
     }
 
     public Order findById(Long id) {

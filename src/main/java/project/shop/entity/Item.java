@@ -80,9 +80,11 @@ public class Item extends BaseTimeEntity{
         string.append("일 ");
         string.append(hour);
         string.append(":");
+        if (minute < 10) {
+            string.append("0");
+        }
         string.append(minute);
         this.createDateTimeString = string.toString();
-        log.info("=========CDTS : {}",this.createDateTimeString);
     }
 
 
