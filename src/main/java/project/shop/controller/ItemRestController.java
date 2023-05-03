@@ -27,7 +27,7 @@ public class ItemRestController {
         SessionMember sessionMember = (SessionMember) session.getAttribute("member");
 
         Item item = itemService.save(itemDto.toEntity());
-        item.setMember(memberService.findByEmail(sessionMember.getEmail()));
+        item.setMember(memberService.findByEmail(sessionMember.getEmail()).orElseThrow());
 
         return item.getId();
     }

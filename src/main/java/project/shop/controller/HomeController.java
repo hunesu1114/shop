@@ -24,13 +24,17 @@ public class HomeController {
     @GetMapping("")
     public String home(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if (session.getAttribute("member") == null) {
+        SessionMember sessionMember = (SessionMember)session.getAttribute("member");
+        if(memberService.findByEmail(sessionMember.getEmail()).isEmpty()){
+            return "member/registration";
+        }
+        if (sessionMember == null) {
             model.addAttribute("loginStatus", false);
         }else{
             model.addAttribute("loginStatus", true);
-            SessionMember member = (SessionMember) session.getAttribute("member");
-            String memberName = member.getName();
-            model.addAttribute("memberName", memberName);
+            Member member = memberService.getMemberFromSession(request).orElseThrow();
+            model.addAttribute("member", member);
+
         }
         return "home/home";
 

@@ -63,7 +63,7 @@ public class ItemController {
         HttpSession session = request.getSession();
         SessionMember sessionMember = (SessionMember)session.getAttribute("member");
 
-        Member member = memberService.findByEmail(sessionMember.getEmail());
+        Member member = memberService.findByEmail(sessionMember.getEmail()).orElseThrow();
         MemberDto memberDto = memberService.toMemberDto(member);
 
         log.info("{}", memberDto.getEmail());

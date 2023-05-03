@@ -1,105 +1,146 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <meta charset="utf-8">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <meta charset="utf-8" />
 
     <style>
-        button{
-            width:60px;
-        }
+      button {
+        width: 60px;
+      }
+
+      .blueText {
+        color: blue;
+      }
     </style>
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="text-center" style="margin-top:5%"><h1>마이페이지</h1></div>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="text-center" style="margin-top: 5%">
+          <h1>마이페이지</h1>
+        </div>
+      </div>
+
+      <form action="" method="post" th:object="${member}">
+        <div class="row">
+          <span class="col-md-4 offset-md-5">
+            닉네임 :
+            <input
+              type="text"
+              th:field="*{nickName}"
+              th:placeholder="*{nickName}"
+            />
+            <button id="nickNameSet" class="btn btn-info" type="submit">
+              저장
+            </button>
+          </span>
+        </div>
+
+        <div class="row" style="margin-top: 50px">
+          <div class="text-center blueText">
+            <h4>배송중인 상품</h4>
+          </div>
+        </div>
+
+        <div class="row">
+          <table class="table col-md-6 text-center">
+            <thead>
+              <tr>
+                <th scope="col" class="col-md-1">배송현황</th>
+                <th scope="col" class="col-md-2">주문명</th>
+                <th scope="col" class="col-md-1">가격</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr scope="row" th:each="order : ${orders}">
+                <td>
+                  <p class="blueText" th:text="${order.delivery}">배송상태</p>
+                </td>
+
+                <td>
+                  <p th:text="${order.orderItems.get(0).item.name}+외...">
+                    주문명
+                  </p>
+                </td>
+
+                <td th:text="${order.getTotalPrice()}">가격</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row" style="margin-top: 50px">
+          <div class="text-center"><h4>판매중인 상품</h4></div>
+        </div>
+
+        <div class="row">
+          <table class="table col-md-6 text-center">
+            <thead>
+              <tr>
+                <th scope="col" class="col-md-1">등록 번호</th>
+                <th scope="col" class="col-md-2">상품명</th>
+                <th scope="col" class="col-md-1">상품가격</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr scope="row" th:each="item : ${sellingItems}">
+                <td>
+                  <a
+                    th:href="@{/item/{id} (id=${item.id})}"
+                    th:text="${item.id}"
+                    >등록 번호</a
+                  >
+                </td>
+
+                <td>
+                  <a
+                    th:href="@{/item/{id} (id=${item.id})}"
+                    th:text="${item.name}"
+                    >상품명</a
+                  >
+                </td>
+
+                <td th:text="${item.price}">상품가격</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 offset-md-4">
+            <button
+              class="btn btn-info"
+              type="button"
+              style="width: 200px"
+              th:onclick="|location.href='@{/member/{memberId}/cart (memberId=${id})}'|"
+            >
+              장바구니
+            </button>
+            <button
+              class="btn btn-info"
+              type="button"
+              style="width: 200px"
+              th:onclick="|location.href='@{/home}'|"
+            >
+              메인으로
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
 
-    <form action="" method="post" th:object="${member}">
-
-        <div class="row">
-            <span class="col-md-4 offset-md-5">
-                닉네임 : <input type="text" th:field="*{nickName}">
-                <button class="btn btn-info" type="submit">저장</button>
-                <br>
-                <p th:if="${edited}" style="color:green">닉네임 저장 완료</p>
-            </span>
-        </div>
-
-        <div class="row" style="margin-top:50px">
-            <div class="text-center"><h4>배송중인 상품</h4></div>
-        </div>
-
-        <div class="row">
-            <table class="table col-md-6 text-center">
-                <thead>
-                <tr>
-                    <th scope="col" class="col-md-1">배송현황</th>
-                    <th scope="col" class="col-md-2">주문명</th>
-                    <th scope="col" class="col-md-1">가격</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr scope="row" th:each="order : ${orders}">
-
-                    <td><p th:text="${order.delivery}">배송상태</p></td>
-
-                    <td><p th:text="${order.orderItems.get(0).item.name}+외...">주문명</p></td>
-
-                    <td th:text="${order.getTotalPrice()}">가격</td>
-
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="row" style="margin-top:50px">
-            <div class="text-center"><h4>판매중인 상품</h4></div>
-        </div>
-
-        <div class="row">
-            <table class="table col-md-6 text-center">
-                <thead>
-                <tr>
-                    <th scope="col" class="col-md-1">등록 번호</th>
-                    <th scope="col" class="col-md-2">상품명</th>
-                    <th scope="col" class="col-md-1">상품가격</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr scope="row" th:each="item : ${sellingItems}">
-
-                    <td><a th:href="@{/item/{id} (id=${item.id})}" th:text="${item.id}">등록 번호</a></td>
-
-                    <td><a th:href="@{/item/{id} (id=${item.id})}" th:text="${item.name}">상품명</a></td>
-
-                    <td th:text="${item.price}">상품가격</td>
-
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4 offset-md-4">
-                <button class="btn btn-info" type="button" style="width:200px"
-                        th:onclick="location.href='@{/member/{memberId}/order} (memberId=*{id})'">
-                    장바구니
-                </button>
-                <button class="btn btn-info" type="button" style="width:200px"
-                        th:onclick="|location.href='@{/home}'|">
-                    메인으로
-                </button>
-            </div>
-        </div>
-
-    </form>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+      $('form').on('submit', function () {
+        alert('닉네임 저장 완료!');
+      });
+    </script>
+  </body>
 </html>

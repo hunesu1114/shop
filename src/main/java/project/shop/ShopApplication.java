@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.servlet.http.HttpServletRequest;
+
 @SpringBootApplication
 @EnableJpaAuditing
 public class ShopApplication {

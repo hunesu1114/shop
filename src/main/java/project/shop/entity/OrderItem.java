@@ -25,7 +25,6 @@ public class OrderItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    //단일 상품 주문 갯수
     private int quantity;
 
     public int getTotalPrice() {

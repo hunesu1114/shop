@@ -13,6 +13,9 @@ import project.shop.service.ItemService;
 import project.shop.service.MemberService;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Component
 @RequiredArgsConstructor
@@ -21,9 +24,12 @@ public class InitData {
     private final MemberService memberService;
     private final ItemService itemService;
 
+
+
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
     public void initData() {
+
         Member member1 = Member.builder().
                 email("TEST-Email-1").
                 name("테스트 멤버1").

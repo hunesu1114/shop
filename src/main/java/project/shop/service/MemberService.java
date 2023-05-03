@@ -36,13 +36,15 @@ public class MemberService {
         return member;
     }
 
-    public Member findByEmail(String email) {
+    public Optional<Member> findByEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
-        return member.orElseThrow();
+        return member;
     }
 
     public MemberDto toMemberDto(Member member) {
-        MemberDto dto = MemberDto.builder().email(member.getEmail()).name(member.getName()).picture(member.getPicture()).build();
+        MemberDto dto = MemberDto.builder()
+                .email(member.getEmail()).name(member.getName()).picture(member.getPicture()).nickName(member.getNickName())
+                .build();
         return dto;
     }
 }
