@@ -46,14 +46,19 @@ public class InitData {
                 build();
         memberService.save(member2);
 
-        Item item1=Item.builder().name("상품명1").price(10000).feature("상품설명1").build();
-        itemService.save(item1);
-        item1.setMember(member1);
-        itemService.save(item1);
+        for(int i=1;i<=27;i++){
+            Item item1=Item.builder().name("상품명"+(2*(i-1)+1)).price(10000+1000*i).feature("상품설명"+(2*(i-1)+1)).build();
+            itemService.save(item1);
+            item1.setMember(member1);
+            itemService.save(item1);
 
-        Item item2=Item.builder().name("상품명2").price(20000).feature("상품설명2").build();
-        itemService.save(item2);
-        item2.setMember(member1);
-        itemService.save(item2);
+            Item item2=Item.builder().name("상품명"+2*i).price(20000+100*i).feature("상품설명"+2*i).build();
+            itemService.save(item2);
+            item2.setMember(member2);
+            itemService.save(item2);
+        }
+
+
+
     }
 }

@@ -22,14 +22,26 @@
             <button class="btn btn-naver" th:onclick="|location.href='@{/oauth2/authorization/naver}'|">Naver 로그인</button>
         </div>
     </div>
-<!--    <div class="row">
-        <div class="col-md-4 offset-md-5">
-            <button class="btn btn-primary" th:onclick="|location.href='@{/item/list}'|">Kakao 로그인</button>
-        </div>
-    </div>-->
+
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $('.btn-naver').hover(function(){
+            $(this).css('background-color','skyblue')
+        },function(){
+            $(this).css('background-color','rgb(42, 175, 42)')
+        }
+    )
+
+    $('.btn-google').hover(function(){
+            $(this).css('background-color','skyblue')
+        },function(){
+            $(this).css('background-color','white')
+        }
+    )
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
