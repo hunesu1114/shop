@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <!--    실전용-->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <!--    뷰만 확인하는 용도-->
+    <link href="../../static/css/style.css" rel="stylesheet">
     <style>
         nav{
             margin:auto;
@@ -12,14 +15,14 @@
     </style>
 </head>
 
-<body>
+<body class="body-bg">
 
 <div class="container">
     <h1 class="text-center" style="margin-top : 100px">상품리스트</h1>
 
-    <div class="row">
+    <div class="row" style="margin-top:5%">
         <table class="table col-md-6 text-center">
-            <thead>
+            <thead class="border-top">
             <tr>
                 <th scope="col" class="col-md-1">번호</th>
                 <th scope="col" class="col-md-2">상품명</th>
@@ -29,13 +32,13 @@
             </tr>
             </thead>
 
-            <tbody>
-            <tr scope="row" th:each="item : ${items}">
+            <tbody class="border">
+            <tr scope="row"  th:each="item : ${items}">
 
-                <td><a href="item" th:href="@{/item/{id} (id=${item.id})}"
+                <td><a style="color:black" th:href="@{/item/{id} (id=${item.id})}"
                        th:text="${item.id}">상품id</a></td>
 
-                <td><a href="post" th:href="@{/item/{id} (id=${item.id})}"
+                <td><a style="color:black" th:href="@{/item/{id} (id=${item.id})}"
                        th:text="${item.name}">상품명</a></td>
 
                 <td th:text="${item.price}">가격</td>
@@ -54,7 +57,7 @@
             <form method="post">
                 <div>
                     <input type="text" id="keyword" name="keyword" th:value="${keyword}">
-                    <button type="submit">검색</button>
+                    <button class="btn btn-info" type="submit">검색</button>
                 </div>
             </form>
         </div>

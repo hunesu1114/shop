@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--    실전용-->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <!--    뷰만 확인하는 용도-->
+    <link href="../../static/css/style.css" rel="stylesheet">
     <meta charset="utf-8">
 
     <style>
@@ -10,7 +14,7 @@
         }
     </style>
 </head>
-<body>
+<body class="body-bg">
 <div class="container">
     <form action="" method="post" th:object="${order}">
         <div class="row">
@@ -58,12 +62,12 @@
 
         <div class="row" style="margin-top:20px">
             <div class="col-md-4 offset-md-4">
-                <button class="btn btn-info" type="button"
+                <button class="btn btn-darksalmon" type="button"
                         th:onclick="|location.href='@{/home}'|">
                     메인으로
                 </button>
 
-                <button class="btn btn-info" type="button"
+                <button class="btn btn-darksalmon" type="button"
                         th:onclick="|location.href='@{/item/list/1}'|">
                     상품리스트
                 </button>

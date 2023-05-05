@@ -1,0 +1,47 @@
+/*=======================================home.html======================================*/
+.body-bg {
+  background-color: rgb(221, 205, 185);
+}
+
+.bg-grey {
+  background: darkgrey;
+}
+
+.btn-darksalmon {
+  width: 200px;
+  margin-top: 20px;
+  background-color: darksalmon;
+  font-weight: bolder;
+}
+
+.btn-google {
+  width: 200px;
+  margin-top: 20px;
+  background-color: white;
+  font-weight: bolder;
+}
+
+.btn-naver {
+  width: 200px;
+  margin-top: 20px;
+  background-color: rgb(42, 175, 42);
+  font-weight: bolder;
+}
+
+.font-bold {
+  font-weight: bolder;
+}
+
+.border-top {
+  border-bottom: solid 2px black;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+}
+
+.border {
+  border-bottom: solid 1px black;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+}

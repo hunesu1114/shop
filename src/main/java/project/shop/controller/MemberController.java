@@ -36,7 +36,7 @@ public class MemberController {
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.invalidate();
-        return "redirect:/home";
+        return "redirect:/home?logout?true";
     }
 
     @GetMapping("/registration")
