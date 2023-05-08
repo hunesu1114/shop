@@ -20,36 +20,46 @@
 <div class="container">
     <h1 class="text-center" style="margin-top : 100px">상품리스트</h1>
 
-    <div class="row" style="margin-top:5%">
-        <table class="table col-md-6 text-center">
-            <thead class="border-top">
-            <tr>
-                <th scope="col" class="col-md-1">번호</th>
-                <th scope="col" class="col-md-2">상품명</th>
-                <th scope="col" class="col-md-1">가격</th>
-                <th scope="col" class="col-md-1">판매자</th>
-                <th scope="col" class="col-md-1">작성일자</th>
-            </tr>
-            </thead>
+<!--    <div class="row" style="margin-top:5%">-->
+<!--        <table class="table col-md-6 text-center">-->
+<!--            <thead class="border-top">-->
+<!--            <tr>-->
+<!--                <th scope="col" class="col-md-1">번호</th>-->
+<!--                <th scope="col" class="col-md-2">상품명</th>-->
+<!--                <th scope="col" class="col-md-1">가격</th>-->
+<!--                <th scope="col" class="col-md-1">판매자</th>-->
+<!--                <th scope="col" class="col-md-1">작성일자</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
 
-            <tbody class="border">
-            <tr scope="row"  th:each="item : ${items}">
+<!--            <tbody class="border">-->
+<!--            <tr scope="row"  th:each="item : ${items}">-->
 
-                <td><a class="item-id-link" style="color:black; text-decoration:none" th:href="@{/item/{id} (id=${item.id})}"
-                       th:text="${item.id}">상품id</a></td>
+<!--                <td><a class="item-id-link" style="color:black; text-decoration:none" th:href="@{/item/{id} (id=${item.id})}"-->
+<!--                       th:text="${item.id}">상품id</a></td>-->
 
-                <td><a class="item-name-link"style="color:black; text-decoration:none" th:href="@{/item/{id} (id=${item.id})}"
-                       th:text="${item.name}">상품명</a></td>
+<!--                <td><a class="item-name-link"style="color:black; text-decoration:none" th:href="@{/item/{id} (id=${item.id})}"-->
+<!--                       th:text="${item.name}">상품명</a></td>-->
 
-                <td th:text="${item.price}">가격</td>
+<!--                <td th:text="${item.price}">가격</td>-->
 
-                <td th:text="${item.member.name}">판매자</td>
+<!--                <td th:text="${item.member.name}">판매자</td>-->
 
-                <td th:text="${item.createDateTimeString}">작성일자</td>
+<!--                <td th:text="${item.createDateTimeString}">작성일자</td>-->
 
-            </tr>
-            </tbody>
-        </table>
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+
+    <div class="row card-container" >
+        <div class="col-sm-4 card" th:each="item : ${items}">
+            <img src="https://via.placeholder.com/600" class="w-100">
+            <a class="item-name-link" style="color:black; text-decoration:none" th:href="@{/item/{id} (id=${item.id})}"
+               th:text="${item.name}">상품명</a>
+            <p th:text="${item.price}" th:href="@{/item/{id} (id=${item.id})}">가격</p>
+            <p th:text="${item.member.name}">작성자</p>
+        </div>
     </div>
 
     <div class="row">
@@ -62,7 +72,6 @@
             </form>
         </div>
     </div>
-
     <div class="row">
         <nav aria-label="Page navigation example" class="col-md-8">
             <ul class="pagination offset-md-4">
@@ -136,6 +145,9 @@
             $(this).css('color','black');
         })
     })
+
+
+
 
 </script>
 
