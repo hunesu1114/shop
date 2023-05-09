@@ -9,8 +9,6 @@ import project.shop.dto.ItemDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Getter
@@ -31,7 +29,6 @@ public class Item extends BaseTimeEntity{
 
     @Column(length = 500, nullable = false)
     private String feature;
-
 
     //판매시
     @ManyToOne(fetch = FetchType.LAZY)

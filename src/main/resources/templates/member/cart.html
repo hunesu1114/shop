@@ -6,7 +6,7 @@
       rel="stylesheet"
     />
     <!--    실전용-->
-    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     <!--    뷰만 확인하는 용도-->
     <link href="../../static/css/style.css" rel="stylesheet">
     <meta charset="utf-8" />
@@ -22,7 +22,7 @@
       <form action="" method="post" th:object="${order}">
         <div class="row">
           <div class="text-center" style="margin-top: 5%; margin-bottom: 3%" ;>
-            <h1>장바구니</h1>
+            <h1 id="memberId" th:data-memberId="${memberId}">장바구니</h1>
           </div>
         </div>
 
@@ -38,13 +38,13 @@
             </thead>
 
             <tbody>
-              <tr scope="row" th:each="orderItem : *{orderItems}">
+              <tr scope="row" id="orderItems" th:each="orderItem : *{orderItems}">
                 <td>
                   <a
-                    href="item"
+                          id="orderItemId"
                     th:href="@{/item/{id} (id=${orderItem.item.id})}"
                     th:text="${orderItem.id}"
-                    >상품id</a
+                    >주문id</a
                   >
                 </td>
 
@@ -65,7 +65,7 @@
                     type="number"
                     min="0"
                     th:value="${orderItem.quantity}"
-                  />
+                  />수량
                 </td>
               </tr>
             </tbody>
@@ -74,7 +74,7 @@
 
         <div class="row">
           <div class="col-md-4 offset-md-4">
-            <button class="btn btn-darksalmon" style="width:400px" type="submit">상품 구매</button>
+            <button class="btn btn-darksalmon" id="buyAllInCart" style="width:400px" type="submit">상품 구매</button>
 
             <button
               class="btn btn-darksalmon"
@@ -97,5 +97,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/app/order.js"></script>
   </body>
 </html>

@@ -97,15 +97,6 @@ public class ItemController {
         return "item/item";
     }
 
-    @PostMapping("/{id}")
-    public String addItemToCart(@PathVariable Long id, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        Member member = memberService.getMemberFromSession(request).orElseThrow();
-        Order order = orderService.orderItem(member.getId(), id, 1);
-        redirectAttributes.addAttribute("orderId", order.getId());
-        redirectAttributes.addAttribute("memberId", member.getId());
-        return "redirect:/member/{memberId}/cart?orderId={orderId}";
-    }
-
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
         Item item = itemService.findById(id);
