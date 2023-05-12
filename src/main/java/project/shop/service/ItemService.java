@@ -8,6 +8,7 @@ import project.shop.dto.ItemDto;
 import project.shop.entity.Item;
 import project.shop.repository.ItemRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,15 @@ public class ItemService {
     public Item findById(Long id) {
         Optional<Item> item = itemRepository.findById(id);
         return item.orElseThrow();
+    }
+
+    public List<Item> searchItem(String keyword) {
+        List<Item> rs1 = itemRepository.findByNameContaining(keyword);
+        List<Item> rs2 = itemRepository.findByFeatureContaining(keyword);
+        List<Item> resultSet = new ArrayList<>();
+        resultSet.addAll(rs1);
+        resultSet.addAll(rs2);
+        return resultSet;
     }
 
     public Item update(Long id, ItemDto dto) {

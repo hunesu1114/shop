@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +43,7 @@ public class ItemController {
     @GetMapping("/list/{page}")
     public String itemList(@PathVariable int page, Model model) {
         Pageable pageable = PageRequest.of(page - 1, PagingConst.POST_CNT_PER_PAGE, Sort.by("id").descending());
+
         List<Item> items = itemService.findAllByPage(pageable);
         Pagination pagination = new Pagination(itemService.itemCount(), page);
 
@@ -63,8 +65,11 @@ public class ItemController {
         HttpSession session = request.getSession();
         SessionMember sessionMember = (SessionMember)session.getAttribute("member");
 
-        Member member = memberService.findByEmail(sessionMember.getEmail()).orElseThrow();
-        MemberDto memberDto = memberService.toMemberDto(member);
+        Optional<Member> member = memberService.findByEmail(sessionMember.getEmail());
+        if(member.isEmpty()){
+            return "redirect:/member/login";
+        }
+        MemberDto memberDto = memberService.toMemberDto(member.orElseThrow());
 
         log.info("{}", memberDto.getEmail());
         log.info("{}", memberDto.getName());
@@ -81,11 +86,12 @@ public class ItemController {
         Item item = itemService.findById(id);
         Member seller = item.getMember();
 
-        Member member = memberService.getMemberFromSession(request).orElseThrow();
-        if (member == null) {
+        Optional<Member> member = memberService.getMemberFromSession(request);
+        if (member.isEmpty()) {
             model.addAttribute("isSeller", false);
+            return "redirect:/member/login";
         } else{
-            if (seller.getEmail().equals(member.getEmail())) {
+            if (seller.getEmail().equals(member.orElseThrow().getEmail())) {
                 model.addAttribute("isSeller", true);
             } else {
                 model.addAttribute("isSeller", false);
@@ -114,4 +120,24 @@ public class ItemController {
         return "redirect:/item/list/1";
     }
 
+    @PostMapping("/list/{page}")
+    public String mainPage(@ModelAttribute("keyword") String keyword, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("keyword", keyword);
+        return "redirect:/item/list/search?search={keyword}";
+    }
+
+    @GetMapping("/list/search")
+    public String searchMain(@RequestParam("search") String keyword, Model model) {
+        List<Item> rs = itemService.searchItem(keyword);
+
+        model.addAttribute("items", rs);
+        model.addAttribute("keyword", keyword);
+        return "item/search";
+    }
+
+    @PostMapping("/list/search")
+    public String searchMain(@ModelAttribute("keyword") String keyword, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("keyword", keyword);
+        return "redirect:/item/list/search?search={keyword}";
+    }
 }

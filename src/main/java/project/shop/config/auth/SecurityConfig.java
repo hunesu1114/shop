@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()    //antMatchers 사용
                 .antMatchers("/", "/home", "/member/login", "/member/registration",
-                        "/item/list/**", "/css/**", "/images/**", "/js/**", "/h2-console/**","/static/**").permitAll()
+                        "/item/list/**", "/css/**", "/images/**", "/js/**", "/h2-console/**","/static/**","/favicon/**").permitAll()
                 //("/static/**" 추가해줘야 로그아웃했을 때, css경로 리다이렉트 되었을때도 css받아올 수 있음)
 //                .antMatchers("/home/login").hasRole(Role.MEMBER.name())     //MEMBER권한 가져야 진입가능
                 .anyRequest().authenticated()   //설정된 값 이외에 나머지 URL 로그인된 사용자만 허용

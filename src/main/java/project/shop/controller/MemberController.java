@@ -36,7 +36,7 @@ public class MemberController {
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.invalidate();
-        return "redirect:/home?logout?true";
+        return "redirect:/home?logout=true";
     }
 
     @GetMapping("/registration")
@@ -72,26 +72,26 @@ public class MemberController {
         return "member/cart";
     }
 
-//    /**
-//     * 모델을 DTO로 주고 받아야 함..
-//     * quantity 변경해도 order.html 페이지에 반영 x   -> ajax 좀 배워야 처리 가능 할 듯
-//     */
-//    @PostMapping("/{memberId}/cart")
-//    public String cart(@PathVariable Long memberId, @RequestParam("orderId") Long orderId,
-//                       @ModelAttribute Order order, RedirectAttributes redirectAttributes) {
-//        Order orderEntity = orderService.findById(orderId);
-//        orderEntity.setOrderItems(order.getOrderItems());
-//        Order savedOrder = orderService.save(orderEntity);
-//
-//        redirectAttributes.addAttribute("memberId", memberId);
-//        redirectAttributes.addAttribute("orderId", savedOrder.getId());
-//
-//        for (OrderItem oi : savedOrder.getOrderItems()) {
-//            log.info("======orderItem Name : {}", oi.getItem().getName());
-//            log.info("======orderItem Quantity: {}", oi.getQuantity());
-//        }
-//        return "redirect:/member/{memberId}/order?orderId={orderId}";
-//    }
+    /**
+     * 모델을 DTO로 주고 받아야 함..
+     * quantity 변경해도 order.html 페이지에 반영 x   -> ajax 좀 배워야 처리 가능 할 듯
+     */
+    @PostMapping("/{memberId}/cart")
+    public String cart(@PathVariable Long memberId, @RequestParam("orderId") Long orderId,
+                       @ModelAttribute Order order, RedirectAttributes redirectAttributes) {
+        Order orderEntity = orderService.findById(orderId);
+        orderEntity.setOrderItems(order.getOrderItems());
+        Order savedOrder = orderService.save(orderEntity);
+
+        redirectAttributes.addAttribute("memberId", memberId);
+        redirectAttributes.addAttribute("orderId", savedOrder.getId());
+
+        for (OrderItem oi : savedOrder.getOrderItems()) {
+            log.info("======orderItem Name : {}", oi.getItem().getName());
+            log.info("======orderItem Quantity: {}", oi.getQuantity());
+        }
+        return "redirect:/member/{memberId}/order?orderId={orderId}";
+    }
 
     @GetMapping("/{memberId}/order")
     public String OrderPage(@PathVariable Long memberId, @RequestParam("orderId") Long orderId, Model model) {
