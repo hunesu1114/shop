@@ -120,11 +120,7 @@ public class ItemController {
         return "redirect:/item/list/1";
     }
 
-    @PostMapping("/list/{page}")
-    public String mainPage(@ModelAttribute("keyword") String keyword, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("keyword", keyword);
-        return "redirect:/item/list/search?search={keyword}";
-    }
+
 
     @GetMapping("/list/search")
     public String searchMain(@RequestParam("search") String keyword, Model model) {
@@ -135,9 +131,5 @@ public class ItemController {
         return "item/search";
     }
 
-    @PostMapping("/list/search")
-    public String searchMain(@ModelAttribute("keyword") String keyword, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("keyword", keyword);
-        return "redirect:/item/list/search?search={keyword}";
-    }
+
 }

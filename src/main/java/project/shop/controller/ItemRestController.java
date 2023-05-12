@@ -3,6 +3,7 @@ package project.shop.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.shop.config.auth.dto.SessionMember;
 import project.shop.dto.ItemDto;
 import project.shop.entity.Item;
@@ -16,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -51,5 +55,15 @@ public class ItemRestController {
         response.sendRedirect(redirectUrl);
     }
 
+    @PostMapping("/list/{page}")
+    public void mainPage(@RequestParam String keyword, HttpServletResponse response) throws IOException {
+        //sendRedirect 쓸 때, 인코딩 해줘야 함
+        response.sendRedirect("/item/list/search?search=" + URLEncoder.encode(keyword, "UTF-8"));
+    }
+
+    @PostMapping("/list/search")
+    public void searchMain(@RequestParam String keyword, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/item/list/search?search=" + URLEncoder.encode(keyword, "UTF-8"));
+    }
 
 }
