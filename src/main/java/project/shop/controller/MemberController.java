@@ -55,14 +55,7 @@ public class MemberController {
         return "member/mypage";
     }
 
-    @PostMapping("/mypage/{id}")
-    public String myPage(@PathVariable Long id, @ModelAttribute("member") MemberDto dto, RedirectAttributes redirectAttributes) {
-        Member member = memberService.findById(id);
-        member.setNickName(dto.getNickName());
-        memberService.save(member);
-        redirectAttributes.addAttribute("id", id);
-        return "redirect:/member/mypage/{id}";
-    }
+
 
     @GetMapping("/{memberId}/cart")
     public String cart(@PathVariable Long memberId, @RequestParam("orderId") Long orderId, Model model) {

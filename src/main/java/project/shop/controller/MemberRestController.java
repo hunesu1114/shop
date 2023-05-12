@@ -4,10 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.shop.dto.MemberDto;
+import project.shop.entity.Member;
 import project.shop.entity.Order;
 import project.shop.entity.OrderItem;
+import project.shop.service.MemberService;
 import project.shop.service.OrderService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -18,6 +22,19 @@ import java.io.IOException;
 public class MemberRestController {
 
     private final OrderService orderService;
+    private final MemberService memberService;
+
+    @PostMapping("/mypage/{id}")
+    public void myPage(@PathVariable Long id, @RequestParam String nickName, HttpServletResponse response) throws IOException {
+        Member member = memberService.findById(id);
+        member.setNickName(nickName);
+        memberService.save(member);
+        response.sendRedirect("/member/mypage/"+id);
+    }
+
+
+
+
 //    /**
 //     * 모델을 DTO로 주고 받아야 함..
 //     * quantity 변경해도 order.html 페이지에 반영 x   -> ajax 좀 배워야 처리 가능 할 듯

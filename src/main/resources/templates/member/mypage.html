@@ -25,7 +25,7 @@
     <div class="container">
       <div class="row">
         <div class="text-center" style="margin-top: 5%">
-          <h1>마이페이지</h1>
+          <h1 id="memberId" th:attr="data-memberId=${id}">마이페이지</h1>
         </div>
       </div>
 
@@ -33,12 +33,11 @@
         <div class="row">
           <span class="col-md-4 offset-md-5">
             닉네임 :
-            <input
-              type="text"
+            <input id="nickName"
               th:field="*{nickName}"
               th:placeholder="*{nickName}"
             />
-            <button id="nickNameSet" class="btn btn-darksalmon" type="submit">
+            <button class="btn btn-darksalmon submit-btn" type="submit">
               닉네임 저장
             </button>
           </span>
@@ -141,10 +140,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-      $('form').on('submit', function () {
-        alert('닉네임 저장 완료!');
-      });
-    </script>
+    <script src="/js/app/member.js"></script>
   </body>
 </html>
