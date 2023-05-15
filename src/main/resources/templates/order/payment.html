@@ -9,7 +9,7 @@
     <!--    실전용-->
     <link href="/css/style.css" rel="stylesheet">
     <!--    뷰만 확인하는 용도-->
-    <link href="../../static/css/style.css" rel="stylesheet">
+<!--    <link href="../../static/css/style.css" rel="stylesheet">-->
     <meta charset="utf-8" />
 
     <style>
@@ -25,17 +25,19 @@
   </head>
   <body class="body-bg">
     <div class="container">
-      <form method="post" th:object="${member}">
         <div class="text-center" style="margin-top: 10%"><h1>결제로직</h1></div>
-        <div class="text-center">
+        <div class="text-center" th:object="${member}">
           <p th:text="*{name}">회원이름</p>
+          <div class="memberId" th:text="*{id}"></div>
+          <p class="orderId" th:text="${orderId}"></p>
         </div>
         <div class="row">
           <div class="col-md-4 offset-md-5">
-            <button class="btn btn-primary" type="submit">결제 완료</button>
+            <button class="btn btn-primary pay-done"
+
+                    >결제 완료</button>
           </div>
         </div>
-      </form>
       <div class="row">
         <div class="col-md-4 offset-md-5">
           <button
@@ -50,10 +52,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-      $('form').on('submit', function () {
-        alert('결제 완료! 마이페이지로 이동합니다.');
-      });
-    </script>
+    <script src="/js/app/member.js"></script>
   </body>
 </html>

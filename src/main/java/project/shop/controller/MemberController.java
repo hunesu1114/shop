@@ -27,6 +27,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final OrderService orderService;
+
     @GetMapping("/login")
     public String login() {
         return "member/login";
@@ -55,35 +56,12 @@ public class MemberController {
         return "member/mypage";
     }
 
-
-
     @GetMapping("/{memberId}/cart")
     public String cart(@PathVariable Long memberId, @RequestParam("orderId") Long orderId, Model model) {
         Order order = orderService.findById(orderId);
         model.addAttribute("order", order);
         model.addAttribute("memberId", memberId);
         return "member/cart";
-    }
-
-    /**
-     * 모델을 DTO로 주고 받아야 함..
-     * quantity 변경해도 order.html 페이지에 반영 x   -> ajax 좀 배워야 처리 가능 할 듯
-     */
-    @PostMapping("/{memberId}/cart")
-    public String cart(@PathVariable Long memberId, @RequestParam("orderId") Long orderId,
-                       @ModelAttribute Order order, RedirectAttributes redirectAttributes) {
-        Order orderEntity = orderService.findById(orderId);
-        orderEntity.setOrderItems(order.getOrderItems());
-        Order savedOrder = orderService.save(orderEntity);
-
-        redirectAttributes.addAttribute("memberId", memberId);
-        redirectAttributes.addAttribute("orderId", savedOrder.getId());
-
-        for (OrderItem oi : savedOrder.getOrderItems()) {
-            log.info("======orderItem Name : {}", oi.getItem().getName());
-            log.info("======orderItem Quantity: {}", oi.getQuantity());
-        }
-        return "redirect:/member/{memberId}/order?orderId={orderId}";
     }
 
     @GetMapping("/{memberId}/order")
@@ -93,18 +71,13 @@ public class MemberController {
         return "order/order";
     }
 
-
     @GetMapping("/paymentLogic/{memberId}")
     public String paymentPage(@PathVariable Long memberId, @RequestParam("orderId") Long orderId, Model model) {
         Member member = memberService.findById(memberId);
         model.addAttribute("member", member);
+        model.addAttribute("orderId", orderId);
         return "order/payment";
     }
 
-    @PostMapping("/paymentLogic/{memberId}")
-    public String paymentPage(@PathVariable Long memberId, @RequestParam("orderId") Long orderId, RedirectAttributes redirectAttributes) {
-        orderService.order(orderId);
-        redirectAttributes.addAttribute("memberId", memberId);
-        return "redirect:/member/mypage/{memberId}";
-    }
+
 }

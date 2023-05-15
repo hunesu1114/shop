@@ -14,6 +14,7 @@ import project.shop.service.OrderService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -25,16 +26,22 @@ public class MemberRestController {
     private final MemberService memberService;
 
     @PostMapping("/mypage/{id}")
-    public void myPage(@PathVariable Long id, @RequestParam String nickName, HttpServletResponse response) throws IOException {
+    public void myPage(@PathVariable Long id, @RequestBody MemberDto dto) {
+        log.info("========nickName : {}",dto.getNickName());
         Member member = memberService.findById(id);
-        member.setNickName(nickName);
+        member.setNickName(dto.getNickName());
         memberService.save(member);
-        response.sendRedirect("/member/mypage/"+id);
+    }
+
+    @PostMapping("/paymentLogic/{memberId}")
+    public void paymentPage(@RequestBody Map<String, Object> data) {
+        log.info("==========={}",data.get("orderId"));
+        orderService.order(Long.parseLong(String.valueOf(data.get("orderId"))));
     }
 
 
 
-
+//
 //    /**
 //     * 모델을 DTO로 주고 받아야 함..
 //     * quantity 변경해도 order.html 페이지에 반영 x   -> ajax 좀 배워야 처리 가능 할 듯
@@ -50,7 +57,7 @@ public class MemberRestController {
 //        String redirectUrl = "/member/" + memberId + "/order?orderId=" + savedOrder.getId();
 //        response.sendRedirect(redirectUrl);
 //    }
-
+//
 //    @PostMapping("/{orderItemId}/quantityChange")
 //    public void quantityChange(@PathVariable Long orderItemId, @RequestBody int quantity) {
 //
