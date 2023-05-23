@@ -13,8 +13,10 @@ var main = {
   },
   addToCart: function () {
     var data = {
-      itemId: $('#itemId').dataset.itemId,
+      itemId= $('#itemId').text();
     };
+    var memberId=$('body').dataset.memberId;
+
     $.ajax({
       type: 'POST',
       url: '/item/' + itemId,
@@ -24,6 +26,7 @@ var main = {
     })
       .done(function () {
         alert('장바구니로 이동합니다.');
+        window.location.replace('/member/'+memberId+'/cart')
       })
       .fail(function (error) {
         alert(JSON.stringify(error));
