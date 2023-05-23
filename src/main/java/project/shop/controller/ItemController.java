@@ -99,7 +99,7 @@ public class ItemController {
         }
 
         model.addAttribute("item", item);
-        model.addAttribute("member", member);
+        model.addAttribute("member", member.get());
         return "item/item";
     }
 

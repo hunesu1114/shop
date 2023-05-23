@@ -4,19 +4,23 @@ var main = {
     $('#buy').on('click', function () {
       _this.addToCart();
     });
-    $('#buyAllInCart').click(function () {
-      _this.buyAllInCart();
+
+    $('#buyAllInCart').on('submit', function () {
+      _this.cartToOrder();
     });
-    $('#pay-done').click(function(){
-      _this.payDone();
-    })
+
+    $('.pay-done').click(function () {
+      _this.paymentDone();
+    });
   },
+
+  //안먹힘
   addToCart: function () {
     var data = {
-      itemId= $('#itemId').text();
+      itemId: $('#itemId').text(),
     };
-    var memberId=$('body').dataset.memberId;
-
+    var memberId = $('body').data('memberId');
+    var itemId = $('#itemId').text();
     $.ajax({
       type: 'POST',
       url: '/item/' + itemId,
@@ -26,57 +30,51 @@ var main = {
     })
       .done(function () {
         alert('장바구니로 이동합니다.');
-        window.location.replace('/member/'+memberId+'/cart')
       })
       .fail(function (error) {
         alert(JSON.stringify(error));
       });
   },
-  buyAllInCart: function () {
-    var data = {
-      memberId: $('#memberId').dataset.memberId,
-      orderItemId: $('#itemId').text(),
-      quantities: $('#quantity'),
-    };
+
+  cartToOrder: function () {
+    var data = {};
+
+    var memberId = $('.memberId').text();
     $.ajax({
       type: 'POST',
-      url: '/member/' + memberId + 'cart',
-      dataType: 'json',
+      url: `/member/${memberId}/cart`,
       contentType: 'application/json; charset=utf-8',
       data: JSON.stringify(data),
     })
       .done(function () {
-        alert('장바구니로 이동합니다.');
+        alert('주문 페이지로 이동합니다.');
+        window.location.href = '/member/mypage/' + memberId;
       })
       .fail(function (error) {
         alert(JSON.stringify(error));
       });
   },
 
-  payDone: function () {
-      var data = {
-        memberId: $('#memberId').dataset.memberId,
-        orderItemId: $('#itemId').text(),
-        quantities: $('#quantity'),
-      };
+  paymentDone: function () {
+    var data = {
+      orderId: $('.orderId').text(),
+    };
 
-      $.ajax({
-        type: 'POST',
-        url: '/member/mypage' + memberId,
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(data),
+    var memberId = $('.memberId').text();
+    $.ajax({
+      type: 'POST',
+      url: '/member/paymentLogic/' + memberId,
+      contentType: 'application/json; charset=utf-8',
+      data: JSON.stringify(data),
+    })
+      .done(function () {
+        alert('결제 완료! 마이페이지로 이동합니다.');
+        window.location.href = '/member/mypage/' + memberId;
       })
-        .done(function () {
-          alert('마이페이지로 이동합니다.');
-        })
-        .fail(function (error) {
-          alert(JSON.stringify(error));
-        });
-    },
-
-
-
+      .fail(function (error) {
+        alert(JSON.stringify(error));
+      });
+  },
 
   //   quantityChange: function (index) {
   //     var data={
