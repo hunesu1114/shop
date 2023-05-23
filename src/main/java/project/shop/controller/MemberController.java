@@ -5,19 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import project.shop.config.auth.dto.SessionMember;
 import project.shop.dto.MemberDto;
 import project.shop.entity.Member;
 import project.shop.entity.Order;
-import project.shop.entity.OrderItem;
-import project.shop.repository.MemberRepository;
 import project.shop.service.MemberService;
 import project.shop.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 @Slf4j
 @Controller

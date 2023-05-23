@@ -7,14 +7,9 @@ var main = {
     $('#buyAllInCart').click(function () {
       _this.buyAllInCart();
     });
-
-    // const orderItemsCnt = $('#orderItems').length;
-
-    // for(let i=0;i<orderItemsCnt;i++){
-    //     $('#quantity').eq(i).on('input', function (i) {
-    //         _this.quantityChange(i);
-    //       });
-    // }
+    $('#pay-done').click(function(){
+      _this.payDone();
+    })
   },
   addToCart: function () {
     var data = {
@@ -54,6 +49,32 @@ var main = {
         alert(JSON.stringify(error));
       });
   },
+
+  payDone: function () {
+      var data = {
+        memberId: $('#memberId').dataset.memberId,
+        orderItemId: $('#itemId').text(),
+        quantities: $('#quantity'),
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: '/member/mypage' + memberId,
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data),
+      })
+        .done(function () {
+          alert('마이페이지로 이동합니다.');
+        })
+        .fail(function (error) {
+          alert(JSON.stringify(error));
+        });
+    },
+
+
+
+
   //   quantityChange: function (index) {
   //     var data={
   //         orderItemId:$('#orderItemId').eq(index).text(),
